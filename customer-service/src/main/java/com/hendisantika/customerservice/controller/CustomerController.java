@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -39,5 +40,11 @@ public class CustomerController {
                 customerRepository.findById(id);
         src.main.java.com.hendisantika.customerservice.entity.Customer data = record.get();
         return data;
+    }
+
+    @GetMapping(value = "/findAll")
+    public List<src.main.java.com.hendisantika.customerservice.entity.Customer> findAll() {
+        List<src.main.java.com.hendisantika.customerservice.entity.Customer> customers = customerRepository.findAll();
+        return customers;
     }
 }
