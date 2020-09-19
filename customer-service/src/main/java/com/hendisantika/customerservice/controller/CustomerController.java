@@ -7,8 +7,10 @@ import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,6 +55,16 @@ public class CustomerController {
         Optional<src.main.java.com.hendisantika.customerservice.entity.Customer> record =
                 customerRepository.findById(id);
         Mono<src.main.java.com.hendisantika.customerservice.entity.Customer> data = Mono.justOrEmpty(record);
+        return data;
+    }
+
+    @GetMapping(value = "/findAllReactive")
+    public Flux<src.main.java.com.hendisantika.customerservice.entity.Customer> findAllReactive() {
+        List<src.main.java.com.hendisantika.customerservice.entity.Customer> customers = customerRepository.findAll();
+        // Sending the events with 10 millisec delay
+        Flux<src.main.java.com.hendisantika.customerservice.entity.Customer> data =
+                Flux.fromIterable(customers).delayElements(Duration.ofMillis(10));
+
         return data;
     }
 
