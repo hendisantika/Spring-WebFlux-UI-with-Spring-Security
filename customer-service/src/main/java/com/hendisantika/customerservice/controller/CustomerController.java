@@ -47,4 +47,14 @@ public class CustomerController {
         List<src.main.java.com.hendisantika.customerservice.entity.Customer> customers = customerRepository.findAll();
         return customers;
     }
+
+    @GetMapping(value = "/findCustomerReactive")
+    public Mono<src.main.java.com.hendisantika.customerservice.entity.Customer> findCustomerReactive(@RequestParam Long id) {
+        Optional<src.main.java.com.hendisantika.customerservice.entity.Customer> record =
+                customerRepository.findById(id);
+        Mono<src.main.java.com.hendisantika.customerservice.entity.Customer> data = Mono.justOrEmpty(record);
+        return data;
+    }
+
+
 }
