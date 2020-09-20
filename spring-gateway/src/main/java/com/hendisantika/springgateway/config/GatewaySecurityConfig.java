@@ -72,5 +72,11 @@ public class GatewaySecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
-
+    public static void main(String[] args) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String encryptedPass1 = encoder.encode("user1");
+        String encryptedPass2 = encoder.encode("user2");
+        System.out.println("pass1 " + encryptedPass1);
+        System.out.println("pass2 " + encryptedPass2);
+    }
 }
