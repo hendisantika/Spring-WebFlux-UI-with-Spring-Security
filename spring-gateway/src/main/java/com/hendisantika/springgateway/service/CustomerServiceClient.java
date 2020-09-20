@@ -1,8 +1,11 @@
 package com.hendisantika.springgateway.service;
 
+import com.hendisantika.springgateway.dto.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -36,5 +39,16 @@ public class CustomerServiceClient {
             ServiceInstance serviceInstance = instances.get(0);
             this.customerServiceUrl = serviceInstance.getUri().toString();
         }
+    }
+
+    public Customer findCustomer(Long id) {
+        ResponseEntity<Customer> response = restTemplate
+                .getForEntity(this.customerServiceUrl + "/findCustomer?id=" + id, Customer.class);
+
+        if (response.getStatusCode() == HttpStatus.OK) {
+            Customer customer = response.getBody();
+            return customer;
+        }
+        return null;
     }
 }
