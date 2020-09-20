@@ -4,6 +4,8 @@ import com.hendisantika.springgateway.dto.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -49,6 +51,17 @@ public class CustomerServiceClient {
             Customer customer = response.getBody();
             return customer;
         }
+        return null;
+    }
+
+    public List<Customer> findAll() {
+        ResponseEntity<List<Customer>> record = restTemplate.exchange(this.customerServiceUrl + "/findAll",
+                HttpMethod.GET, null, new ParameterizedTypeReference<List<Customer>>() {
+                });
+        if (record != null && record.hasBody()) {
+            return record.getBody();
+        }
+
         return null;
     }
 }
