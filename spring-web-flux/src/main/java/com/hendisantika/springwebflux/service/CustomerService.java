@@ -1,5 +1,8 @@
 package com.hendisantika.springwebflux.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hendisantika.springwebflux.dto.Customer;
 import org.apache.commons.codec.Charsets;
 import org.apache.http.Header;
@@ -68,7 +71,7 @@ public class CustomerService {
                         : Charsets.toCharset(encodingHeader.getValue());
                 // use org.apache.http.util.EntityUtils to read json as string
                 String jsonRes = EntityUtils.toString(entity, encoding);
-                List<Customer> customers = converJsonToResponse(jsonRes);
+                List<Customer> customers = convertJsonToResponse(jsonRes);
                 return customers;
             } else {
                 throw new RestClientException(httpResponse.getStatusLine().getReasonPhrase());
@@ -84,6 +87,14 @@ public class CustomerService {
                 e.printStackTrace();
             }
         }
+    }
+
+    private static List<Customer> convertJsonToResponse(final String response)
+            throws JsonMappingException, JsonProcessingException {
+        final ObjectMapper mapper = new ObjectMapper();
+        @SuppressWarnings("unchecked")
+        List<Customer> customers = mapper.readValue(response, List.class);
+        return customers;
     }
 
 }
