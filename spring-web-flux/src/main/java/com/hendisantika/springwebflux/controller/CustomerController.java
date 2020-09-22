@@ -8,7 +8,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.thymeleaf.spring5.context.webflux.IReactiveDataDriverContextVariable;
+import org.thymeleaf.spring5.context.webflux.ReactiveDataDriverContextVariable;
+import reactor.core.publisher.Flux;
 
+import java.time.Duration;
 import java.util.List;
 
 /**
@@ -35,5 +39,16 @@ public class CustomerController {
         List<Customer> customers = this.customerServcie.findAllCustomers(token);
         model.addAttribute("customers", customers);
         return "customers";
+    }
+
+    @GetMapping("/findAllCustomersReactive")
+    public String findAllReactive(Model model, Authentication authentication) {
+        String token = jwtUtils.generateJwtToken(authentication);
+        List<Customer> customers = this.customerServcie.findAllCustomers(token);
+        // Introducing a delay of 200 ms to show the streaming behaviour
+        IReactiveDataDriverContextVariable data = new ReactiveDataDriverContextVariable(Flux.fromIterable(customers).delayElements(Duration.ofMillis(200)));
+        model.addAttribute("customers", data);
+
+        return "customers-reactive";
     }
 }
