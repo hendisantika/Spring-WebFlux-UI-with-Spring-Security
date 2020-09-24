@@ -3,7 +3,7 @@ package com.hendisantika.springgateway.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hendisantika.springgateway.SpringGatewayApplication;
 import com.hendisantika.springgateway.reqres.LoginRequest;
-import org.aspectj.lang.annotation.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -39,7 +39,7 @@ class LoginControllerTest {
         return jsonContent;
     }
 
-    @Before
+    @BeforeEach
     public void setup() {
         this.mockMvc = webAppContextSetup(wac).build();
     }

@@ -2,7 +2,7 @@ package com.hendisantika.springgateway.controller;
 
 import com.hendisantika.springgateway.reqres.LoginRequest;
 import com.hendisantika.springgateway.reqres.LoginResponse;
-import org.aspectj.lang.annotation.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -32,7 +32,7 @@ public class CustomerServiceControllerTest {
     private final TestRestTemplate restTemplate = new TestRestTemplate();
     private String token;
 
-    @Before
+    @BeforeEach
     public void setup() {
 
         LoginRequest loginRequest = new LoginRequest("user1", "user1");
