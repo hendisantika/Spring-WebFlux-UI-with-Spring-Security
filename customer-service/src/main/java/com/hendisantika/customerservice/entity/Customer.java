@@ -1,4 +1,4 @@
-package src.main.java.com.hendisantika.customerservice.entity;
+package com.hendisantika.customerservice.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

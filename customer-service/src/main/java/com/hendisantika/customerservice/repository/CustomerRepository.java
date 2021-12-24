@@ -1,5 +1,6 @@
 package com.hendisantika.customerservice.repository;
 
+import com.hendisantika.customerservice.entity.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -11,5 +12,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Date: 19/09/20
  * Time: 21.11
  */
-public interface CustomerRepository extends JpaRepository<src.main.java.com.hendisantika.customerservice.entity.Customer, Long> {
+public interface CustomerRepository extends JpaRepository<Customer, Long> {
 }

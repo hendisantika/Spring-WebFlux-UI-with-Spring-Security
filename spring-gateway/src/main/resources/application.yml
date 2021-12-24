@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8081
 spring:
   security:
     user:
@@ -25,3 +25,8 @@ eureka:
       defaultZone: http://admin:password@localhost:8761/eureka/
   server:
     waitTimeInMsWhenSyncEmpty: 0
+jwt:
+  security:
+    key: zab23bc8934gh=1
+  token:
+    validity: 1800000

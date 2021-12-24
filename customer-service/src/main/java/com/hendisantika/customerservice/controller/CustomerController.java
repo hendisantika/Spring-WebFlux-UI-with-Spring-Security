@@ -1,5 +1,6 @@
 package com.hendisantika.customerservice.controller;
 
+import com.hendisantika.customerservice.entity.Customer;
 import com.hendisantika.customerservice.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -37,32 +38,32 @@ public class CustomerController {
     }
 
     @GetMapping(value = "/findCustomer")
-    public src.main.java.com.hendisantika.customerservice.entity.Customer findCustomer(@RequestParam Long id) {
-        Optional<src.main.java.com.hendisantika.customerservice.entity.Customer> record =
+    public Customer findCustomer(@RequestParam Long id) {
+        Optional<Customer> record =
                 customerRepository.findById(id);
-        src.main.java.com.hendisantika.customerservice.entity.Customer data = record.get();
+        Customer data = record.get();
         return data;
     }
 
     @GetMapping(value = "/findAll")
-    public List<src.main.java.com.hendisantika.customerservice.entity.Customer> findAll() {
-        List<src.main.java.com.hendisantika.customerservice.entity.Customer> customers = customerRepository.findAll();
+    public List<Customer> findAll() {
+        List<Customer> customers = customerRepository.findAll();
         return customers;
     }
 
     @GetMapping(value = "/findCustomerReactive")
-    public Mono<src.main.java.com.hendisantika.customerservice.entity.Customer> findCustomerReactive(@RequestParam Long id) {
-        Optional<src.main.java.com.hendisantika.customerservice.entity.Customer> record =
+    public Mono<Customer> findCustomerReactive(@RequestParam Long id) {
+        Optional<Customer> record =
                 customerRepository.findById(id);
-        Mono<src.main.java.com.hendisantika.customerservice.entity.Customer> data = Mono.justOrEmpty(record);
+        Mono<Customer> data = Mono.justOrEmpty(record);
         return data;
     }
 
     @GetMapping(value = "/findAllReactive")
-    public Flux<src.main.java.com.hendisantika.customerservice.entity.Customer> findAllReactive() {
-        List<src.main.java.com.hendisantika.customerservice.entity.Customer> customers = customerRepository.findAll();
+    public Flux<Customer> findAllReactive() {
+        List<Customer> customers = customerRepository.findAll();
         // Sending the events with 10 millisec delay
-        Flux<src.main.java.com.hendisantika.customerservice.entity.Customer> data =
+        Flux<Customer> data =
                 Flux.fromIterable(customers).delayElements(Duration.ofMillis(10));
 
         return data;
