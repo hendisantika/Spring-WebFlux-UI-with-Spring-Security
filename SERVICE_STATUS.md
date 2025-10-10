@@ -5,7 +5,7 @@
 All services have been successfully built and packaged.
 
 **Build Date**: 2025-10-10
-**Spring Boot Version**: 3.5.3
+**Spring Boot Version**: 3.5.6
 **Java Version**: 21
 **Spring Cloud Version**: 2023.0.2
 
@@ -156,7 +156,7 @@ curl -X POST http://localhost:8081/authenticate \
 
 3. ✅ **Spring Cloud Compatibility**
     - Updated Spring Cloud from 2021.0.0 to 2023.0.2
-    - Compatible with Spring Boot 3.5.3
+   - Compatible with Spring Boot 3.5.6
 
 4. ✅ **Thymeleaf Upgrade**
     - Updated from `org.thymeleaf.spring5.*` to `org.thymeleaf.spring6.*`

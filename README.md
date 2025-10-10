@@ -68,7 +68,7 @@ This project consists of 5 microservices that work together to demonstrate a com
 
 ## Technology Stack
 
-- **Spring Boot**: 3.3.1
+- **Spring Boot**: 3.5.6
 - **Java**: 21
 - **Spring Cloud**: 2023.0.2
 - **Spring Security**: 6.x (with JWT)
@@ -250,12 +250,13 @@ All services use H2 in-memory database. No external database setup required.
 
 ## Recent Updates
 
-- Upgraded to Spring Boot 3.3.1
+- Upgraded to Spring Boot 3.5.6 (latest stable release)
 - Migrated from javax.* to jakarta.* packages
 - Updated Spring Security configuration to use SecurityFilterChain
 - Updated Spring Cloud to version 2023.0.2
 - Replaced deprecated WebSecurityConfigurerAdapter
 - Updated Thymeleaf to Spring 6 dialect
+- All services successfully compiled and packaged
 
 ## Additional Documentation
 

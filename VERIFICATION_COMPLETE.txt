@@ -34,7 +34,7 @@ Total: 5 services, 294M total JAR size
 
 ✅ Spring Cloud Compatibility
    - Updated from 2021.0.0 to 2023.0.2
-   - Compatible with Spring Boot 3.5.3
+   - Compatible with Spring Boot 3.5.6
 
 ✅ Thymeleaf Upgrade
    - Updated from spring5 to spring6 dialect
@@ -147,7 +147,7 @@ JWT Configuration:
   TECHNOLOGY STACK
 ================================================================================
 
-- Spring Boot: 3.5.3
+- Spring Boot: 3.5.6
 - Java: 21
 - Spring Cloud: 2023.0.2
 - Spring Security: 6.x (JWT)
