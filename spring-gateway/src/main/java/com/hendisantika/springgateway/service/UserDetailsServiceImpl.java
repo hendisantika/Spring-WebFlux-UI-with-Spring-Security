@@ -2,13 +2,12 @@ package com.hendisantika.springgateway.service;
 
 import com.hendisantika.springgateway.entity.User;
 import com.hendisantika.springgateway.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
 
 /**
  * Created by IntelliJ IDEA.

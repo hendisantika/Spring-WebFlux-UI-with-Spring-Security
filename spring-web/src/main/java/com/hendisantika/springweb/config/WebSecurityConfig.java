@@ -3,9 +3,8 @@ package com.hendisantika.springweb.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.SecurityFilterChain;
 
 /**
  * Created by IntelliJ IDEA.
@@ -18,7 +17,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
  */
 @EnableWebSecurity
 @Configuration
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig {
 
     @Bean
     public GatewayAuthenticationProvider authenticationProvider() {
@@ -26,14 +25,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return authProvider;
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests().anyRequest().authenticated().and().formLogin()
-                .defaultSuccessUrl("/findAllCustomers", true);
-    }
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/favicon.ico", "/icons/**", "/images/**", "/css/**", "/h2-console/**").permitAll()
+                        .anyRequest().authenticated()
+                )
+                .formLogin(form -> form
+                        .defaultSuccessUrl("/findAllCustomers", true)
+                );
 
-    @Override
-    public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/favicon.ico", "/icons/**", "/images/**", "/css/**", "/h2-console/**");
+        http.authenticationProvider(authenticationProvider());
+        return http.build();
     }
 }
