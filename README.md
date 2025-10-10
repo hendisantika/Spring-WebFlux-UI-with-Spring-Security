@@ -100,6 +100,22 @@ mvn clean install
 
 ## Running the Services
 
+### Quick Start (Recommended)
+
+Use the provided helper scripts to start/stop all services:
+
+```bash
+# Start all services in correct order
+./start-all-services.sh
+
+# Stop all services
+./stop-all-services.sh
+```
+
+Logs will be written to the `logs/` directory.
+
+### Manual Start
+
 Services should be started in the following order:
 
 ### 1. Start Discovery Server
@@ -240,6 +256,13 @@ All services use H2 in-memory database. No external database setup required.
 - Updated Spring Cloud to version 2023.0.2
 - Replaced deprecated WebSecurityConfigurerAdapter
 - Updated Thymeleaf to Spring 6 dialect
+
+## Additional Documentation
+
+For detailed service status, configurations, and troubleshooting, see:
+
+- **[SERVICE_STATUS.md](SERVICE_STATUS.md)** - Comprehensive service status and health check guide
+- Startup/Stop Scripts: `start-all-services.sh` and `stop-all-services.sh`
 
 ## Troubleshooting
 
