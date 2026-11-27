@@ -1,5 +1,11 @@
 # Spring-WebFlux-UI-with-Spring-Security
 
+[![Java CI with Maven](https://github.com/hendisantika/Spring-WebFlux-UI-with-Spring-Security/actions/workflows/maven.yml/badge.svg)](https://github.com/hendisantika/Spring-WebFlux-UI-with-Spring-Security/actions/workflows/maven.yml)
+![Java](https://img.shields.io/badge/Java-25-orange?logo=openjdk)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.2.0-brightgreen?logo=springboot)
+![Spring Cloud](https://img.shields.io/badge/Spring%20Cloud-2026.0.0-brightgreen?logo=spring)
+![Dependabot](https://img.shields.io/badge/Dependabot-enabled-blue?logo=dependabot)
+
 A microservices-based demonstration project showcasing Spring WebFlux, Spring Security, JWT authentication, and service
 discovery patterns using Spring Cloud Netflix Eureka.
 
@@ -68,21 +74,24 @@ This project consists of 5 microservices that work together to demonstrate a com
 
 ## Technology Stack
 
-- **Spring Boot**: 3.5.6
-- **Java**: 21
-- **Spring Cloud**: 2023.0.2
-- **Spring Security**: 6.x (with JWT)
+- **Spring Boot**: 4.2.0
+- **Java**: 25 (Temurin)
+- **Spring Cloud**: 2026.0.0
+- **Spring Security**: 7.x (with JWT)
+- **JJWT**: 0.13.0 (HS512, key derived via SHA-512 from `jwt.security.key`)
 - **Spring WebFlux**: Reactive programming
 - **Thymeleaf**: 3.x (spring6 dialect)
-- **H2 Database**: In-memory database
+- **H2 Database**: 2.x in-memory database
 - **Netflix Eureka**: Service discovery
 - **JWT**: JSON Web Tokens for authentication
 - **Maven**: Build tool
+- **GitHub Actions**: CI build on JDK 25
+- **Dependabot**: Automated Maven & GitHub Actions updates
 
 ## Prerequisites
 
-- JDK 21 or higher
-- Maven 3.6+
+- JDK 25 or higher
+- Maven 3.9+
 
 ## Building the Project
 
@@ -248,9 +257,38 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9...
 
 All services use H2 in-memory database. No external database setup required.
 
+## Continuous Integration
+
+Every push and pull request to `master` runs the **Java CI with Maven** workflow
+([`.github/workflows/maven.yml`](.github/workflows/maven.yml)):
+
+- Builds and tests all modules with `mvn -B package` on **Temurin JDK 25**
+- Caches the Maven repository for faster builds
+- Submits the dependency graph to GitHub (optional, never fails the build)
+- Can be triggered manually via `workflow_dispatch`
+
+## Dependency Updates (Dependabot)
+
+[`.github/dependabot.yml`](.github/dependabot.yml) keeps dependencies fresh every **Monday 21:00 (Asia/Jakarta)**:
+
+| Ecosystem      | Directories                  | Groups                                                                 | Commit prefix  |
+|----------------|------------------------------|------------------------------------------------------------------------|----------------|
+| Maven          | `/` and each module          | `spring` (Spring Boot + Spring Cloud), `jwt`, `maven-minor-patch`      | `build(deps)`  |
+| GitHub Actions | `/`                          | `github-actions` (all actions)                                         | `ci(deps)`     |
+
+Spring Boot and Spring Cloud are grouped in one PR because each Spring Cloud release train only supports specific
+Spring Boot versions (e.g. Spring Cloud 2026.0.x ↔ Spring Boot 4.2.x).
+
 ## Recent Updates
 
-- Upgraded to Spring Boot 3.5.6 (latest stable release)
+- Upgraded to **JDK 25** (local build & GitHub Actions)
+- Upgraded to **Spring Boot 4.2.0** & **Spring Cloud 2026.0.0**
+- Migrated to Spring Security 7 APIs (`DaoAuthenticationProvider(UserDetailsService)`, lambda DSL for `ServerHttpSecurity`)
+- Migrated JWT handling to JJWT 0.13 API (`verifyWith`, `parseSignedClaims`, `SecretKey` signing)
+- Moved `RestTemplateBuilder`/`TestRestTemplate` to the new `spring-boot-restclient` / `spring-boot-resttestclient` modules
+- Fixed H2 2.x reserved keyword `USER` in the gateway schema (`NON_KEYWORDS=USER`)
+- Enhanced Dependabot (grouped updates, GitHub Actions ecosystem, labels, conventional commit prefixes)
+- Upgraded to Spring Boot 3.5.6
 - Migrated from javax.* to jakarta.* packages
 - Updated Spring Security configuration to use SecurityFilterChain
 - Updated Spring Cloud to version 2023.0.2
@@ -281,7 +319,7 @@ For detailed service status, configurations, and troubleshooting, see:
 
 ### Build failures
 
-- Ensure JDK 21 is being used
+- Ensure JDK 25 is being used (`java -version`)
 - Run `mvn clean install` to refresh dependencies
 - Check for port conflicts
 
