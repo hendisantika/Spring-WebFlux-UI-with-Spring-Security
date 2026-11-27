@@ -15,7 +15,7 @@
     <description>Customer Service</description>
 
     <properties>
-        <java.version>21</java.version>
+        <java.version>25</java.version>
         <spring-cloud.version>2026.0.0</spring-cloud.version>
     </properties>
 
