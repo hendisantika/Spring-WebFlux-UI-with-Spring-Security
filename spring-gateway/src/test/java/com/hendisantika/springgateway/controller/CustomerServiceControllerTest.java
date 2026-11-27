@@ -6,7 +6,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.boot.resttestclient.TestRestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -26,10 +27,13 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Time: 04.56
  */
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CustomerServiceControllerTest {
 
     private final TestRestTemplate restTemplate = new TestRestTemplate();
+
+    @LocalServerPort
+    private int port;
     private String token;
 
     @BeforeEach
@@ -37,7 +41,7 @@ public class CustomerServiceControllerTest {
 
         LoginRequest loginRequest = new LoginRequest("user1", "user1");
         try {
-            ResponseEntity<LoginResponse> response = restTemplate.postForEntity("http://localhost:8080/authenticate",
+            ResponseEntity<LoginResponse> response = restTemplate.postForEntity("http://localhost:" + port + "/authenticate",
                     loginRequest, LoginResponse.class);
             LoginResponse loginResponse = response.getBody();
             token = loginResponse.getJwt();
@@ -50,7 +54,7 @@ public class CustomerServiceControllerTest {
     public void findAllCustomersTest() throws Exception {
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + token);
-        ResponseEntity<String> response = restTemplate.exchange("http://localhost:8080/findAll", HttpMethod.GET,
+        ResponseEntity<String> response = restTemplate.exchange("http://localhost:" + port + "/findAll", HttpMethod.GET,
                 new HttpEntity<>(headers), String.class);
 
         System.out.println(response.getBody());

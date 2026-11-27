@@ -3,15 +3,19 @@ package com.hendisantika.springweb.util;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
 /**
@@ -38,18 +42,18 @@ public class JWTUtils {
 
         String name = authentication.getName();
 
-        return Jwts.builder().setSubject(name).setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtTokenValidity))
-                .signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
+        return Jwts.builder().subject(name).issuedAt(new Date())
+                .expiration(new Date((new Date()).getTime() + jwtTokenValidity))
+                .signWith(signingKey()).compact();
     }
 
     public String getUserNameFromJwtToken(String token) {
-        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
+        return Jwts.parser().verifyWith(signingKey()).build().parseSignedClaims(token).getPayload().getSubject();
     }
 
     public boolean validateJwtToken(String jwt) {
         try {
-            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(jwt);
+            Jwts.parser().verifyWith(signingKey()).build().parseSignedClaims(jwt);
             return true;
         } catch (SignatureException e) {
             logger.error("Invalid JWT signature: {}", e.getMessage());
@@ -64,5 +68,18 @@ public class JWTUtils {
         }
 
         return false;
+    }
+
+    /**
+     * Derives a 512-bit HMAC key from the configured secret so that it satisfies
+     * the minimum key length required by JJWT for HS512 (RFC 7518).
+     */
+    private SecretKey signingKey() {
+        try {
+            byte[] keyBytes = MessageDigest.getInstance("SHA-512").digest(jwtSecret.getBytes(StandardCharsets.UTF_8));
+            return Keys.hmacShaKeyFor(keyBytes);
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalStateException("SHA-512 algorithm is not available", e);
+        }
     }
 }

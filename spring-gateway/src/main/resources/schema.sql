@@ -1,3 +1,6 @@
+DROP TABLE IF EXISTS user_role;
+DROP TABLE IF EXISTS user;
+
 CREATE TABLE user
 (
     username varchar_ignorecase(20)  NOT NULL PRIMARY KEY,

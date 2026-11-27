@@ -37,12 +37,13 @@ public class WebFluxSecurityConfig {
 
     @Bean
     protected SecurityWebFilterChain securityFilterChange(ServerHttpSecurity http) throws Exception {
-        http.authorizeExchange()
-                // URL that starts with / or /login/
-                .pathMatchers("/", "/login", "/js/**", "/images/**", "/css/**", "/h2-console/**").permitAll()
-                .anyExchange().authenticated().and().formLogin()
-                .authenticationManager(authManager)
-                .authenticationSuccessHandler(new RedirectServerAuthenticationSuccessHandler("/findAllCustomers"));
+        http.authorizeExchange(exchanges -> exchanges
+                        // URL that starts with / or /login/
+                        .pathMatchers("/", "/login", "/js/**", "/images/**", "/css/**", "/h2-console/**").permitAll()
+                        .anyExchange().authenticated())
+                .formLogin(formLogin -> formLogin
+                        .authenticationManager(authManager)
+                        .authenticationSuccessHandler(new RedirectServerAuthenticationSuccessHandler("/findAllCustomers")));
         return http.build();
 
     }

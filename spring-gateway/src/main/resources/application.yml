@@ -5,6 +5,9 @@ spring:
     user:
       name: admin
       password: password
+  datasource:
+    # H2 2.x treats USER as a reserved keyword
+    url: jdbc:h2:mem:gatewaydb;NON_KEYWORDS=USER
   jpa:
     hibernate:
       ddl-auto: none
